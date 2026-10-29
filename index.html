@@ -89,7 +89,9 @@
     <main>
       <section id="page-home" class="section active">
         <div class="feed-head"><h1>Home feed</h1><span class="pill">✦ Your community</span></div>
-        <div class="notice">Welcome! This is your first OnLine preview. Posts you create are saved in this browser on this device. Accounts and live messaging will be connected in a later step.</div>
+        <div class="notice" id="authNotice">Sign in with Google to publish posts that everyone can see across devices.</div>
+<button type="button" class="primary" id="googleSignInButton" style="margin-bottom:15px">Sign in with Google</button>
+<p class="muted tiny" id="authStatus" role="status"></p>
         <form class="card composer" id="postForm">
           <div class="compose-row"><div class="avatar" id="composerAvatar">P</div><div style="flex:1"><textarea id="postText" maxlength="500" placeholder="What's happening?" required aria-label="Write a post"></textarea></div></div>
           <div class="compose-bottom"><span class="muted tiny">Share something positive ✨</span><button class="primary" type="submit">＋ Publish post</button></div>
