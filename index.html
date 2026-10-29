@@ -9,191 +9,159 @@
 <style>
 :root{color-scheme:dark;--bg:#090b16;--panel:#12172a;--panel2:#181f38;--text:#f3f5ff;--muted:#9aa6c6;--blue:#3985ff;--purple:#984dff;--line:#29314d;--green:#4ce0a0}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top left,#172044 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{margin:0;background:radial-gradient(ellipse at top left,#172044 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 system-ui,sans-serif}
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-.topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:13px max(16px,calc((100vw - 1200px)/2));background:#090b16ef;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:22px;letter-spacing:-.7px;white-space:nowrap}
-.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 5px 22px #6c59ff55;font-weight:900}
+.topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:13px 16px;background:#090b16ef;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:22px}
+.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:900}
 .search{flex:1;max-width:420px;margin:auto}
-input,textarea{width:100%;background:#0d1222;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
-input:focus,textarea:focus{border-color:var(--blue)}
-.profile-chip{display:flex;align-items:center;gap:8px;white-space:nowrap;font-weight:650}
+input,textarea{width:100%;background:#0d1222;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.profile-chip{display:flex;align-items:center;gap:8px}
 .avatar{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3985ff,#984dff);font-weight:800;overflow:hidden}
-.layout{display:grid;grid-template-columns:210px minmax(0,620px) 245px;gap:22px;max-width:1200px;margin:24px auto;padding:0 16px}
+.layout{display:grid;grid-template-columns:190px minmax(0,620px) 220px;gap:18px;max-width:1200px;margin:24px auto;padding:0 16px}
 aside{align-self:start;position:sticky;top:82px}
 .nav{display:grid;gap:7px}
-.nav button{display:flex;align-items:center;gap:12px;text-align:left;color:var(--muted);border:1px solid transparent;background:transparent;padding:12px 14px;border-radius:13px}
+.nav button{display:flex;align-items:center;gap:12px;text-align:left;color:var(--muted);border:1px solid transparent;background:transparent;padding:12px;border-radius:13px}
 .nav button.active,.nav button:hover{background:var(--panel2);border-color:#343e66;color:var(--text)}
 .nav .symbol{width:23px;text-align:center;font-size:18px}
 .side-card,.card{background:linear-gradient(145deg,#141a2e,#101526);border:1px solid var(--line);border-radius:18px}
 .side-card{padding:16px;margin-top:20px}
-.side-card h3{margin:0 0 8px;font-size:15px}
+.side-card h3{margin:0 0 8px}
 .muted{color:var(--muted)}
 .tiny{font-size:12px}
 .feed-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 14px}
-h1{font-size:25px;letter-spacing:-.6px;margin:0}
+h1{font-size:25px;margin:0}
 .pill{font-size:12px;color:#c4b4ff;background:#30224e;border:1px solid #58418b;border-radius:99px;padding:5px 9px}
-.composer{padding:16px;margin-bottom:16px}
-.compose-row{display:flex;align-items:flex-start;gap:11px}
-.compose-row textarea{min-height:86px;resize:vertical}
+.composer,.upload-box{padding:16px;margin-bottom:16px}
+.compose-row{display:flex;gap:11px}
+.compose-row textarea{min-height:86px}
 .compose-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
-.primary{border:0;border-radius:12px;padding:10px 16px;color:white;font-weight:750;background:linear-gradient(110deg,var(--blue),var(--purple));box-shadow:0 5px 18px #6c59ff30}
-.primary:hover{filter:brightness(1.1)}
-.primary:disabled{opacity:.6;cursor:wait}
+.primary{border:0;border-radius:12px;padding:10px 16px;color:white;font-weight:750;background:linear-gradient(110deg,var(--blue),var(--purple))}
+.primary:disabled{opacity:.6}
 .post{padding:17px;margin-bottom:14px}
 .post-top{display:flex;align-items:center;gap:10px}
 .post-name{font-weight:750}
 .profile-link{display:inline-flex;align-items:center;gap:8px;padding:0;border:0;background:transparent;color:inherit;text-align:left}
-.profile-link:hover strong,.profile-link:hover .post-name{text-decoration:underline;color:#b9cfff}
 .post-time{font-size:12px;color:var(--muted)}
 .post-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:15px 0}
 .post-actions{display:flex;gap:9px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
 .action{background:transparent;border:1px solid transparent;color:var(--muted);padding:7px 10px;border-radius:10px}
-.action:hover,.action.liked{color:#ff86bd;background:#2b1830;border-color:#59304d}
-.action:disabled{opacity:.5;cursor:not-allowed}
-.online-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 9px #4ce0a066;margin-right:7px}
+.action.liked{color:#ff86bd;background:#2b1830}
+.online-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:7px}
 .person{display:flex;align-items:center;gap:10px;margin-top:14px}
-.person .avatar{width:34px;height:34px;font-size:12px}
-.person-info{min-width:0;flex:1}
-.person-name{font-size:13px;font-weight:700}
 .short-video{width:100%;max-height:560px;background:#03050a;border-radius:14px;display:block;margin-top:12px}
-.short-owner{display:flex;align-items:center;gap:9px;margin-top:12px}
 .short-grid{display:grid;gap:14px}
-.upload-box{padding:16px;margin-bottom:16px}
 .section{display:none}
 .section.active{display:block}
-.empty{padding:28px;text-align:center}
+.empty{text-align:center;padding:28px}
 .notice{padding:12px 14px;margin-bottom:15px;border-radius:12px;border:1px solid #39466e;background:#121b35;color:#c4d4ff;font-size:13px}
 .mobile-nav{display:none}
 footer{color:var(--muted);font-size:12px;text-align:center;padding:28px 12px}
-@media(max-width:1000px){.layout{grid-template-columns:180px minmax(0,1fr)}.rightbar{display:none}}
-@media(max-width:650px){.topbar{gap:10px;padding:10px 12px}.brand{font-size:19px}.logo{width:34px;height:34px}.search{max-width:none}.profile-chip span{display:none}.layout{display:block;margin:17px auto;padding:0 12px}.leftbar{display:none}.mobile-nav{position:sticky;bottom:0;z-index:6;display:flex;justify-content:space-around;gap:3px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#0b0e1cf5;border-top:1px solid var(--line);backdrop-filter:blur(12px)}.mobile-nav button{flex:1;display:grid;justify-items:center;gap:2px;background:transparent;border:0;border-radius:10px;color:var(--muted);padding:6px 1px;font-size:10px}.mobile-nav button.active{color:#fff;background:#222a49}.mobile-nav .symbol{font-size:19px}h1{font-size:23px}}
+@media(max-width:1000px){.layout{grid-template-columns:170px minmax(0,1fr)}.rightbar{display:none}}
+@media(max-width:650px){.topbar{gap:8px;padding:10px}.brand{font-size:18px}.logo{width:34px;height:34px}.profile-chip span{display:none}.layout{display:block;margin:17px auto;padding:0 12px}.leftbar{display:none}.mobile-nav{position:sticky;bottom:0;z-index:6;display:flex;justify-content:space-around;gap:2px;padding:8px 3px calc(8px + env(safe-area-inset-bottom));background:#0b0e1cf5;border-top:1px solid var(--line)}.mobile-nav button{flex:1;display:grid;justify-items:center;gap:2px;background:transparent;border:0;border-radius:10px;color:var(--muted);padding:6px 1px;font-size:10px}.mobile-nav button.active{color:white;background:#222a49}.mobile-nav .symbol{font-size:19px}h1{font-size:23px}}
 </style>
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><div class="logo">O</div><span>OnLine</span></div>
-  <div class="search"><input id="searchInput" type="search" placeholder="Search posts..." aria-label="Search posts"></div>
-  <div class="profile-chip"><div class="avatar">P</div><span>Player</span></div>
+<div class="brand"><div class="logo">O</div><span>OnLine</span></div>
+<div class="search"><input id="searchInput" type="search" placeholder="Search posts..." aria-label="Search posts"></div>
+<div class="profile-chip"><div class="avatar">P</div><span>Player</span></div>
 </header>
 
 <div class="layout">
 <aside class="leftbar">
-  <nav class="nav" aria-label="Main navigation">
-    <button class="active" data-page="home"><span class="symbol">⌂</span> Home</button>
-    <button data-page="discover"><span class="symbol">⌕</span> Discover</button>
-    <button data-page="shorts"><span class="symbol">▶</span> Shorts</button>
-    <button data-page="messages"><span class="symbol">✉</span> Messages</button>
-    <button data-page="friends"><span class="symbol">♧</span> Friends</button>
-    <button data-page="profile"><span class="symbol">◉</span> My profile</button>
-  </nav>
-  <div class="side-card"><h3>Welcome to OnLine</h3><p class="muted tiny">Your space to share ideas, meet people, and stay connected.</p><span class="pill">Preview version</span></div>
+<nav class="nav" aria-label="Main navigation">
+<button class="active" data-page="home"><span class="symbol">⌂</span> Home</button>
+<button data-page="discover"><span class="symbol">⌕</span> Discover</button>
+<button data-page="shorts"><span class="symbol">▶</span> Shorts</button>
+<button data-page="messages"><span class="symbol">✉</span> Messages</button>
+<button data-page="friends"><span class="symbol">♧</span> Friends</button>
+<button data-page="profile"><span class="symbol">◉</span> My profile</button>
+</nav>
+<div class="side-card"><h3>Welcome to OnLine</h3><p class="muted tiny">Your space to share ideas, meet people, and stay connected.</p><span class="pill">Preview version</span></div>
 </aside>
 
 <main>
 <section id="page-home" class="section active">
-  <div class="feed-head"><h1>Home feed</h1><span class="pill">✦ Your community</span></div>
-  <div class="notice" id="authNotice">Sign in with Google to publish posts that everyone can see across devices.</div>
-  <button type="button" class="primary" id="googleSignInButton" style="margin-bottom:15px">Sign in with Google</button>
-  <p class="muted tiny" id="authStatus" role="status" aria-live="polite">Connecting to Firebase…</p>
-  <form class="card composer" id="postForm">
-    <div class="compose-row"><div class="avatar" id="composerAvatar">P</div><div style="flex:1"><textarea id="postText" maxlength="500" placeholder="What's happening?" required aria-label="Write a post"></textarea></div></div>
-    <div class="compose-bottom"><span class="muted tiny">Share something positive ✨</span><button class="primary" type="submit">＋ Publish post</button></div>
-  </form>
-  <div id="feed"></div>
+<div class="feed-head"><h1>Home feed</h1><span class="pill">✦ Your community</span></div>
+<div class="notice" id="authNotice">Sign in with Google to publish shared posts.</div>
+<button class="primary" id="googleSignInButton" type="button" style="margin-bottom:15px">Sign in with Google</button>
+<p class="muted tiny" id="authStatus" role="status" aria-live="polite">Connecting to Firebase…</p>
+<form class="card composer" id="postForm">
+<div class="compose-row"><div class="avatar" id="composerAvatar">P</div><div style="flex:1"><textarea id="postText" maxlength="500" placeholder="What's happening?" required></textarea></div></div>
+<div class="compose-bottom"><span class="muted tiny">Share something positive ✨</span><button class="primary" type="submit">＋ Publish post</button></div>
+</form>
+<div id="feed"></div>
 </section>
 
 <section id="page-discover" class="section">
-  <div class="feed-head"><h1>Discover</h1><span class="pill">Explore</span></div>
-  <div class="card post"><h3>Find your community ✨</h3><p class="muted">Discover is ready for trending posts, topics, and people once we add more online features.</p></div>
-  <div class="card post"><h3>Gaming</h3><p class="muted">A place for game clips, tips, and finding teammates.</p></div>
-  <div class="card post"><h3>Creative corner</h3><p class="muted">Share art, projects, and things you're building.</p></div>
+<div class="feed-head"><h1>Discover</h1><span class="pill">Explore</span></div>
+<div class="card post"><h3>Find your community ✨</h3><p class="muted">Discover trending posts, topics, and people.</p></div>
+<div class="card post"><h3>Gaming</h3><p class="muted">Share game clips, tips, and find teammates.</p></div>
+<div class="card post"><h3>Creative corner</h3><p class="muted">Share art, projects, and things you're building.</p></div>
 </section>
 
 <section id="page-shorts" class="section">
-  <div class="feed-head"><h1>Shorts</h1><span class="pill">▶ Video feed</span></div>
-  <div class="notice">Videos are saved only in this browser on this device. Shared video storage is not connected yet.</div>
-  <form class="card upload-box" id="shortForm">
-    <h3 style="margin-top:0">＋ Upload a short</h3>
-    <label for="shortTitle">Video title</label>
-    <input id="shortTitle" maxlength="80" placeholder="Give your video a title" required style="margin:6px 0 14px">
-    <label for="shortFile">Choose a video</label>
-    <input id="shortFile" type="file" accept="video/mp4,video/webm,video/quicktime,video/ogg" required style="padding:9px;margin:6px 0 10px">
-    <p class="muted tiny">MP4, WEBM, MOV or OGG · maximum 50 MB per video.</p>
-    <button class="primary" type="submit">Upload video</button>
-    <p id="shortUploadMessage" class="muted tiny" role="status" aria-live="polite"></p>
-  </form>
-  <div id="shortFeed" class="short-grid"><div class="card empty"><p class="muted">Loading videos…</p></div></div>
+<div class="feed-head"><h1>Shorts</h1><span class="pill">▶ Video feed</span></div>
+<div class="notice">Videos are stored in this browser on this device.</div>
+<form class="card upload-box" id="shortForm">
+<h3>＋ Upload a short</h3>
+<label for="shortTitle">Video title</label><input id="shortTitle" maxlength="80" placeholder="Give your video a title" required style="margin:6px 0 14px">
+<label for="shortFile">Choose a video</label><input id="shortFile" type="file" accept="video/*" required style="padding:9px;margin:6px 0 10px">
+<p class="muted tiny">Maximum 50 MB per video.</p>
+<button class="primary" type="submit">Upload video</button><p id="shortUploadMessage" class="muted tiny" role="status"></p>
+</form>
+<div id="shortFeed" class="short-grid"></div>
 </section>
 
 <section id="page-messages" class="section">
-  <div class="feed-head"><h1>Messages</h1><span class="pill">Coming next</span></div>
-  <div class="card empty"><div style="font-size:40px">💬</div><h3>Your chats will live here</h3><p class="muted">Real-time messaging will need a separate shared messaging system.</p></div>
+<div class="feed-head"><h1>Messages</h1><span class="pill">Coming next</span></div>
+<div class="card empty"><div style="font-size:40px">💬</div><h3>Your chats will live here</h3><p class="muted">Real-time messaging needs a shared messaging system.</p></div>
 </section>
 
 <section id="page-friends" class="section">
-  <div class="feed-head"><h1>Friends</h1><span class="pill">Community</span></div>
-  <div class="card empty"><div style="font-size:40px">♧</div><h3>Your people, all in one place</h3><p class="muted">Friend requests and live online indicators will be added in a future update.</p></div>
+<div class="feed-head"><h1>Friends</h1><span class="pill">Community</span></div>
+<div class="card empty"><div style="font-size:40px">♧</div><h3>Your people, all in one place</h3><p class="muted">Friend requests and live online indicators are not connected yet.</p></div>
 </section>
 
 <section id="page-profile" class="section">
-  <div class="feed-head"><h1>My profile</h1></div>
-  <div class="card post">
-    <div id="profileBannerPreview" style="height:135px;border-radius:13px;background:linear-gradient(120deg,#3985ff,#984dff);margin:-1px -1px 16px;overflow:hidden;position:relative">
-      <span id="bannerFallbackText" style="position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;color:#ffffff99">YOUR BANNER</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:14px"><div class="avatar" id="profileAvatarLarge" style="width:68px;height:68px;font-size:23px">P</div><div><h2 id="profileDisplayName" style="margin:0">Player</h2><span class="muted tiny" id="profileHandle">@player</span><p class="muted" id="profileBioText" style="margin:5px 0 0">Welcome to my OnLine profile!</p></div></div>
-    <p class="muted tiny" id="profileViewNotice">This is your profile.</p>
-    <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-    <p><strong id="postCount">0</strong> posts</p>
-    <p class="muted tiny">Profile details are saved in this browser on this device for now.</p>
-  </div>
-  <form class="card post" id="profileForm">
-    <h3 style="margin-top:0">Customize your profile</h3>
-    <p class="muted tiny">Choose how people will see you on OnLine.</p>
-    <label for="displayNameInput">Display name</label>
-    <input id="displayNameInput" maxlength="24" placeholder="Your display name" required style="margin:6px 0 14px">
-    <label for="usernameInput">Username</label>
-    <input id="usernameInput" maxlength="20" pattern="[A-Za-z0-9_]+" placeholder="your_username" required style="margin:6px 0 14px">
-    <label for="bioInput">Bio</label>
-    <textarea id="bioInput" maxlength="120" rows="3" placeholder="Tell people a little about yourself..." style="margin:6px 0 14px"></textarea>
-    <label for="avatarInput">Avatar letter or symbol (used if no picture is selected)</label>
-    <input id="avatarInput" maxlength="2" placeholder="P" style="margin:6px 0 14px">
-    <label for="avatarFileInput">Upload an avatar picture</label>
-    <div style="display:flex;align-items:center;gap:12px;margin:8px 0 14px;flex-wrap:wrap">
-      <div id="avatarUploadPreview" class="avatar" style="width:76px;height:76px;font-size:24px">P</div>
-      <div style="flex:1;min-width:160px">
-        <input id="avatarFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px">
-        <p class="muted tiny" style="margin:6px 0 0">PNG, JPG, WEBP or GIF · up to 2 MB. Saved on this device.</p>
-        <button type="button" id="removeAvatarImage" class="action" style="margin-top:5px">Remove picture</button>
-      </div>
-    </div>
-    <label for="bannerFileInput">Upload a profile banner</label>
-    <div style="margin:8px 0 14px">
-      <input id="bannerFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px">
-      <p class="muted tiny" style="margin:6px 0 0">Wide image recommended · PNG, JPG, WEBP or GIF · up to 3 MB.</p>
-      <button type="button" id="removeBannerImage" class="action" style="margin-top:5px">Remove banner</button>
-    </div>
-    <button class="primary" type="submit">Save profile</button>
-    <p id="profileSaveMessage" class="muted tiny" role="status" aria-live="polite"></p>
-  </form>
+<div class="feed-head"><h1>My profile</h1></div>
+<div class="card post">
+<div id="profileBannerPreview" style="height:135px;border-radius:13px;background:linear-gradient(120deg,#3985ff,#984dff);margin-bottom:16px;overflow:hidden;position:relative"><span id="bannerFallbackText" style="position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;color:#ffffff99">YOUR BANNER</span></div>
+<div style="display:flex;align-items:center;gap:14px"><div class="avatar" id="profileAvatarLarge" style="width:68px;height:68px;font-size:23px">P</div><div><h2 id="profileDisplayName" style="margin:0">Player</h2><span class="muted tiny" id="profileHandle">@player</span><p class="muted" id="profileBioText">Welcome to my OnLine profile!</p></div></div>
+<p class="muted tiny" id="profileViewNotice">This is your profile.</p><hr style="border:0;border-top:1px solid var(--line)">
+<p><strong id="postCount">0</strong> posts</p><p class="muted tiny">Profile details are saved in this browser.</p>
+</div>
+<form class="card post" id="profileForm">
+<h3>Customize your profile</h3>
+<label for="displayNameInput">Display name</label><input id="displayNameInput" maxlength="24" required style="margin:6px 0 14px">
+<label for="usernameInput">Username</label><input id="usernameInput" maxlength="20" pattern="[A-Za-z0-9_]+" required style="margin:6px 0 14px">
+<label for="bioInput">Bio</label><textarea id="bioInput" maxlength="120" rows="3" style="margin:6px 0 14px"></textarea>
+<label for="avatarInput">Avatar letter or symbol</label><input id="avatarInput" maxlength="2" style="margin:6px 0 14px">
+<label for="avatarFileInput">Upload avatar picture</label><input id="avatarFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px;margin:6px 0">
+<button type="button" id="removeAvatarImage" class="action">Remove avatar picture</button>
+<label for="bannerFileInput" style="display:block;margin-top:14px">Upload profile banner</label><input id="bannerFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px;margin:6px 0">
+<button type="button" id="removeBannerImage" class="action">Remove banner</button>
+<button class="primary" type="submit" style="display:block;margin-top:14px">Save profile</button>
+<p id="profileSaveMessage" class="muted tiny" role="status"></p>
+</form>
 </section>
 </main>
 
 <aside class="rightbar">
-  <div class="side-card"><h3><span class="online-dot"></span>Community</h3><p class="muted tiny">The online community list will appear here as accounts are added.</p><div class="person"><div class="avatar">O</div><div class="person-info"><div class="person-name">OnLine Community</div><div class="muted tiny">Getting started</div></div></div></div>
-  <div class="side-card"><h3>Quick note</h3><p class="muted tiny">Be kind, protect your personal information, and only share what you're comfortable making public.</p></div>
+<div class="side-card"><h3><span class="online-dot"></span>Community</h3><p class="muted tiny">The community list will appear as accounts are added.</p></div>
+<div class="side-card"><h3>Quick note</h3><p class="muted tiny">Be kind and protect your personal information.</p></div>
 </aside>
 </div>
 
-<nav class="mobile-nav" aria-label="Mobile navigation">
-  <button class="active" data-page="home"><span class="symbol">⌂</span>Home</button>
-  <button data-page="discover"><span class="symbol">⌕</span>Discover</button>
-  <button data-page="shorts"><span class="symbol">▶</span>Shorts</button>
-  <button data-page="messages"><span class="symbol">✉</span>Messages</button>
-  <button data-page="friends"><span class="symbol">♧</span>Friends</button>
-  <button data-page="profile"><span class="symbol">◉</span>Profile</button>
+<nav class="mobile-nav">
+<button class="active" data-page="home"><span class="symbol">⌂</span>Home</button>
+<button data-page="discover"><span class="symbol">⌕</span>Discover</button>
+<button data-page="shorts"><span class="symbol">▶</span>Shorts</button>
+<button data-page="messages"><span class="symbol">✉</span>Messages</button>
+<button data-page="friends"><span class="symbol">♧</span>Friends</button>
+<button data-page="profile"><span class="symbol">◉</span>Profile</button>
 </nav>
 <footer>OnLine © <span id="year"></span> · A new place to connect</footer>
 
@@ -201,455 +169,172 @@ footer{color:var(--muted);font-size:12px;text-align:center;padding:28px 12px}
 const STORAGE_KEY="online_preview_posts_v1";
 const PROFILE_KEY="online_preview_profile_v1";
 const SHORTS_DB="online_preview_shorts_db_v1";
-let shortObjectUrls=[];
 const defaultProfile={displayName:"Player",username:"player",bio:"Welcome to my OnLine profile!",avatar:"P",avatarImage:"",bannerImage:""};
-let profile=loadProfile();
-
-function loadProfile(){
-  try{
-    const saved=localStorage.getItem(PROFILE_KEY);
-    return saved?{...defaultProfile,...JSON.parse(saved)}:{...defaultProfile};
-  }catch{return {...defaultProfile};}
-}
-function saveProfile(){
-  try{localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));}catch{}
-}
-const starterPosts=[
-  {id:"welcome",name:"OnLine Team",username:"online_team",initial:"O",time:"Welcome post",text:"Welcome to OnLine! 🎉 This is the beginning of our community. Sign in and share your first post above.",likes:0,liked:false,comments:[]}
-];
+function loadProfile(){try{return {...defaultProfile,...JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}}catch{return {...defaultProfile}}}
+let profile=loadProfile(),pendingAvatarImage=profile.avatarImage||"",pendingBannerImage=profile.bannerImage||[],shortObjectUrls=[];
+function saveProfile(){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(profile))}catch{}}
+const starterPosts=[{id:"welcome",name:"OnLine Team",username:"online_team",initial:"O",time:"Welcome post",text:"Welcome to OnLine! 🎉 Sign in and share your first post above.",likes:0,liked:false,comments:[]}];
+function loadPosts(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||starterPosts.slice()}catch{return starterPosts.slice()}}
 let posts=loadPosts();
-
-function loadPosts(){
-  try{
-    const saved=localStorage.getItem(STORAGE_KEY);
-    const loaded=saved?JSON.parse(saved):starterPosts.slice();
-    return loaded.map(post=>({...post,comments:Array.isArray(post.comments)?post.comments:[]}));
-  }catch{return starterPosts.map(post=>({...post,comments:[]}));}
-}
-function savePosts(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(posts));}catch{}
-}
-function escapeHTML(value){
-  return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-}
-function setAvatarContent(el,imageData,fallback){
-  el.replaceChildren();
-  if(imageData){
-    const img=document.createElement("img");
-    img.src=imageData;img.alt="Avatar picture";
-    img.style.cssText="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block";
-    el.appendChild(img);
-  }else el.textContent=fallback||"P";
-}
-function avatarMarkup(imageData,fallback,size=38){
-  const style=`width:${size}px;height:${size}px;min-width:${size}px;border-radius:50%;object-fit:cover;display:block`;
-  if(imageData)return `<img src="${escapeHTML(imageData)}" alt="Profile picture" style="${style}">`;
-  return `<span class="avatar" style="width:${size}px;height:${size}px;min-width:${size}px;font-size:${size<=30?12:15}px">${escapeHTML(fallback||"P")}</span>`;
-}
-function openProfileView(){
-  openPage("profile");
-  document.getElementById("profileForm").style.display="block";
-  document.getElementById("profileViewNotice").textContent="You're viewing your local profile. Profile details are saved on this device.";
-}
-function setBannerContent(){
-  const banner=document.getElementById("profileBannerPreview");
-  const fallback=document.getElementById("bannerFallbackText");
-  if(profile.bannerImage){
-    banner.style.backgroundImage=`url("${profile.bannerImage}")`;
-    banner.style.backgroundSize="cover";banner.style.backgroundPosition="center";
-    fallback.style.display="none";
-  }else{
-    banner.style.backgroundImage="linear-gradient(120deg,#3985ff,#984dff)";
-    fallback.style.display="grid";
-  }
-}
+function savePosts(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(posts))}catch{}}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function setAvatar(el,img,fallback){el.replaceChildren();if(img){const i=document.createElement("img");i.src=img;i.alt="Avatar";i.style.cssText="width:100%;height:100%;object-fit:cover";el.append(i)}else el.textContent=fallback||"P"}
+function avatarHTML(img,fallback,size=38){return img?`<img src="${esc(img)}" alt="Avatar" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover">`:`<span class="avatar" style="width:${size}px;height:${size}px">${esc(fallback||"P")}</span>`}
 function applyProfile(){
-  document.querySelectorAll(".profile-chip .avatar").forEach(el=>setAvatarContent(el,profile.avatarImage,profile.avatar||"P"));
-  const chipName=document.querySelector(".profile-chip span");
-  if(chipName)chipName.textContent=profile.displayName;
-  setAvatarContent(document.getElementById("profileAvatarLarge"),profile.avatarImage,profile.avatar||"P");
-  setAvatarContent(document.getElementById("composerAvatar"),profile.avatarImage,profile.avatar||"P");
-  setAvatarContent(document.getElementById("avatarUploadPreview"),profile.avatarImage,profile.avatar||"P");
-  setBannerContent();
-  document.getElementById("profileDisplayName").textContent=profile.displayName;
-  document.getElementById("profileHandle").textContent="@"+profile.username;
-  document.getElementById("profileBioText").textContent=profile.bio||"No bio yet.";
-  document.getElementById("displayNameInput").value=profile.displayName;
-  document.getElementById("usernameInput").value=profile.username;
-  document.getElementById("bioInput").value=profile.bio;
-  document.getElementById("avatarInput").value=profile.avatar;
+ document.querySelectorAll(".profile-chip .avatar").forEach(e=>setAvatar(e,profile.avatarImage,profile.avatar));
+ setAvatar(document.getElementById("composerAvatar"),profile.avatarImage,profile.avatar);
+ setAvatar(document.getElementById("profileAvatarLarge"),profile.avatarImage,profile.avatar);
+ document.querySelector(".profile-chip span").textContent=profile.displayName;
+ document.getElementById("profileDisplayName").textContent=profile.displayName;
+ document.getElementById("profileHandle").textContent="@"+profile.username;
+ document.getElementById("profileBioText").textContent=profile.bio||"No bio yet.";
+ document.getElementById("displayNameInput").value=profile.displayName;
+ document.getElementById("usernameInput").value=profile.username;
+ document.getElementById("bioInput").value=profile.bio;
+ document.getElementById("avatarInput").value=profile.avatar;
+ const b=document.getElementById("profileBannerPreview"),f=document.getElementById("bannerFallbackText");
+ if(profile.bannerImage){b.style.backgroundImage=`url("${profile.bannerImage}")`;b.style.backgroundSize="cover";b.style.backgroundPosition="center";f.style.display="none"}else{b.style.backgroundImage="linear-gradient(120deg,#3985ff,#984dff)";f.style.display="grid"}
 }
-let pendingAvatarImage=profile.avatarImage||"";
-let pendingBannerImage=profile.bannerImage||"";
-
-const bannerFileInput=document.getElementById("bannerFileInput");
-bannerFileInput.addEventListener("change",()=>{
-  const file=bannerFileInput.files&&bannerFileInput.files[0];
-  if(!file)return;
-  if(!["image/png","image/jpeg","image/webp","image/gif"].includes(file.type)){
-    alert("Please choose a PNG, JPG, WEBP, or GIF image.");bannerFileInput.value="";return;
-  }
-  if(file.size>3*1024*1024){
-    alert("Please choose a banner image smaller than 3 MB.");bannerFileInput.value="";return;
-  }
-  const reader=new FileReader();
-  reader.onload=()=>{
-    pendingBannerImage=String(reader.result||"");
-    const banner=document.getElementById("profileBannerPreview");
-    banner.style.backgroundImage=`url("${pendingBannerImage}")`;
-    banner.style.backgroundSize="cover";banner.style.backgroundPosition="center";
-    document.getElementById("bannerFallbackText").style.display="none";
-  };
-  reader.onerror=()=>alert("Sorry, that banner couldn't be read. Please try another image.");
-  reader.readAsDataURL(file);
-});
-document.getElementById("removeBannerImage").addEventListener("click",()=>{
-  pendingBannerImage="";bannerFileInput.value="";
-  document.getElementById("profileBannerPreview").style.backgroundImage="linear-gradient(120deg,#3985ff,#984dff)";
-  document.getElementById("bannerFallbackText").style.display="grid";
-});
-
-const avatarFileInput=document.getElementById("avatarFileInput");
-avatarFileInput.addEventListener("change",()=>{
-  const file=avatarFileInput.files&&avatarFileInput.files[0];
-  if(!file)return;
-  if(!["image/png","image/jpeg","image/webp","image/gif"].includes(file.type)){
-    alert("Please choose a PNG, JPG, WEBP, or GIF image.");avatarFileInput.value="";return;
-  }
-  if(file.size>2*1024*1024){
-    alert("Please choose an image smaller than 2 MB.");avatarFileInput.value="";return;
-  }
-  const reader=new FileReader();
-  reader.onload=()=>{
-    pendingAvatarImage=String(reader.result||"");
-    setAvatarContent(document.getElementById("avatarUploadPreview"),pendingAvatarImage,document.getElementById("avatarInput").value||"P");
-  };
-  reader.onerror=()=>alert("Sorry, that picture couldn't be read. Please try another image.");
-  reader.readAsDataURL(file);
-});
-document.getElementById("removeAvatarImage").addEventListener("click",()=>{
-  pendingAvatarImage="";avatarFileInput.value="";
-  setAvatarContent(document.getElementById("avatarUploadPreview"),"",document.getElementById("avatarInput").value||"P");
-});
-
-document.getElementById("profileForm").addEventListener("submit",event=>{
-  event.preventDefault();
-  const displayName=document.getElementById("displayNameInput").value.trim();
-  const username=document.getElementById("usernameInput").value.trim().replace(/^@/,"");
-  const bio=document.getElementById("bioInput").value.trim();
-  const avatar=document.getElementById("avatarInput").value.trim().slice(0,2)||displayName.slice(0,1).toUpperCase()||"P";
-  if(!displayName||!/^[A-Za-z0-9_]+$/.test(username)){
-    document.getElementById("profileSaveMessage").textContent="Enter a display name and a username using only letters, numbers, or underscores.";return;
-  }
-  if(username.toLowerCase()!==profile.username.toLowerCase()&&username.toLowerCase()==="player"){
-    document.getElementById("profileSaveMessage").textContent="That username is already taken. Please choose another.";return;
-  }
-  profile={displayName,username,bio,avatar,avatarImage:pendingAvatarImage,bannerImage:pendingBannerImage};
-  saveProfile();applyProfile();
-  document.getElementById("profileSaveMessage").textContent="Profile saved on this device!";
-  renderFeed(document.getElementById("searchInput").value);
-});
-
-function getAllPosts(){
-  const shared=window.sharedOnLinePosts||[];
-  const sharedIds=new Set(shared.map(p=>p.id));
-  return [...shared,...posts.filter(p=>!sharedIds.has(p.id))];
-}
+function getAllPosts(){const shared=window.sharedOnLinePosts||[],ids=new Set(shared.map(p=>p.id));return [...shared,...posts.filter(p=>!ids.has(p.id))]}
 function renderFeed(filter=""){
-  const feed=document.getElementById("feed");
-  const allPosts=getAllPosts();
-  const matching=allPosts.filter(p=>((p.text||"")+" "+(p.name||"")+" "+(p.username||"")).toLowerCase().includes(filter.toLowerCase()));
-  if(!matching.length){
-    feed.innerHTML='<div class="card empty"><h3>No posts found</h3><p class="muted">Try another search or publish a post.</p></div>';
-  }else{
-    feed.innerHTML=matching.map(p=>{
-      const shared=!!p.shared;
-      const comments=Array.isArray(p.comments)?p.comments:[];
-      return `<article class="card post">
-        <div class="post-top">
-          <button class="profile-link" data-view-profile="${escapeHTML(p.username||"player")}" aria-label="View profile">${avatarMarkup(p.avatarImage||(p.name===profile.displayName?profile.avatarImage:""),p.initial||"P",38)}</button>
-          <div><button class="profile-link" data-view-profile="${escapeHTML(p.username||"player")}"><span class="post-name">${escapeHTML(p.name||"Player")}</span></button>
-          <div class="post-time">${escapeHTML(p.time||"Just now")}${shared?' · ☁ Shared':''}</div></div>
-        </div>
-        <div class="post-text">${escapeHTML(p.text||"")}</div>
-        <div class="post-actions">
-          <button class="action ${p.liked?"liked":""}" data-like="${escapeHTML(p.id)}" ${shared?"disabled title='Shared likes are not connected yet'":""}>${p.liked?"♥":"♡"} ${Number(p.likes)||0} Like${Number(p.likes)===1?"":"s"}</button>
-          <button class="action" data-copy="${escapeHTML(p.id)}">↗ Copy post text</button>
-          <button class="action" data-toggle-comments="${escapeHTML(p.id)}" ${shared?"disabled title='Shared comments are not connected yet'":""}>💬 ${comments.length} Comment${comments.length===1?"":"s"}</button>
-        </div>
-        ${shared?'<p class="muted tiny">Likes and comments for shared posts will be added in a future update.</p>':`
-        <div class="comments-area" id="comments-${escapeHTML(p.id)}" style="display:none">
-          ${comments.map(c=>`<div style="display:flex;gap:8px;margin:12px 0"><button class="profile-link" data-view-profile="${escapeHTML(c.username||"player")}">${avatarMarkup(c.avatarImage||"",c.initial||"P",30)}</button><div style="flex:1;background:#0d1222;border:1px solid var(--line);border-radius:12px;padding:9px 11px"><strong style="font-size:13px">${escapeHTML(c.name||"Player")}</strong><div style="white-space:pre-wrap;overflow-wrap:anywhere;margin-top:3px">${escapeHTML(c.text)}</div><div class="muted tiny" style="margin-top:4px">${escapeHTML(c.time||"Just now")}</div></div></div>`).join("")}
-          <form class="comment-form" data-comment-form="${escapeHTML(p.id)}" style="display:flex;gap:8px;margin-top:12px">
-            <input name="commentText" maxlength="250" placeholder="Write a comment..." aria-label="Write a comment" required>
-            <button class="primary" type="submit" style="padding:9px 12px">Send</button>
-          </form>
-        </div>`}
-      </article>`;
-    }).join("");
-  }
-  document.getElementById("postCount").textContent=allPosts.filter(p=>p.username===profile.username).length;
+ const all=getAllPosts(),matched=all.filter(p=>(p.text+" "+p.name+" "+p.username).toLowerCase().includes(filter.toLowerCase()));
+ document.getElementById("feed").innerHTML=matched.length?matched.map(p=>`<article class="card post"><div class="post-top">${avatarHTML(p.avatarImage,p.initial)}<div><strong>${esc(p.name)}</strong><div class="post-time">${esc(p.time||"Just now")}${p.shared?" · ☁ Shared":""}</div></div></div><div class="post-text">${esc(p.text)}</div><div class="post-actions"><button class="action ${p.liked?"liked":""}" data-like="${esc(p.id)}" ${p.shared?"disabled":""}>${p.liked?"♥":"♡"} ${Number(p.likes)||0} Likes</button><button class="action" data-copy="${esc(p.id)}">↗ Copy post text</button><button class="action" data-comments="${esc(p.id)}" ${p.shared?"disabled":""}>💬 ${p.comments?.length||0} Comments</button></div>${p.shared?"<p class='muted tiny'>Shared likes and comments are not connected yet.</p>":`<div id="comments-${esc(p.id)}" style="display:none">${(p.comments||[]).map(c=>`<p><strong>${esc(c.name)}:</strong> ${esc(c.text)}</p>`).join("")}<form data-comment="${esc(p.id)}" style="display:flex;gap:8px"><input name="commentText" maxlength="250" placeholder="Write a comment..." required><button class="primary">Send</button></form></div>`}</article>`).join(""):'<div class="card empty"><h3>No posts found</h3><p class="muted">Try another search or publish a post.</p></div>';
+ document.getElementById("postCount").textContent=all.filter(p=>p.username===profile.username).length;
 }
 window.renderOnLineFeed=()=>renderFeed(document.getElementById("searchInput").value);
-
-document.getElementById("postForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  const box=document.getElementById("postText");
-  const text=box.value.trim();
-  const status=document.getElementById("authStatus");
-  if(!text)return;
-  if(!window.onlineAuthUser){
-    status.textContent="Please sign in with Google before publishing a shared post.";return;
-  }
-  const button=event.currentTarget.querySelector('button[type="submit"]');
-  button.disabled=true;button.textContent="Publishing…";
-  try{
-    if(typeof window.publishOnLinePost!=="function")throw new Error("Firebase is not ready.");
-    await window.publishOnLinePost({
-      text,
-      name:profile.displayName,
-      username:profile.username,
-      avatarImage:profile.avatarImage||"",
-      initial:profile.avatar||"P"
-    });
-    box.value="";
-    status.textContent="Your post was published to the shared feed!";
-  }catch(error){
-    console.error("Post publishing failed:",error);
-    status.textContent="Couldn't publish. Check your sign-in, connection, and Firestore rules.";
-  }finally{
-    button.disabled=false;button.textContent="＋ Publish post";
-  }
+document.getElementById("postForm").addEventListener("submit",async e=>{
+ e.preventDefault();const box=document.getElementById("postText"),text=box.value.trim(),status=document.getElementById("authStatus");
+ if(!text)return;if(!window.onlineAuthUser){status.textContent="Please sign in with Google before publishing.";return}
+ const b=e.currentTarget.querySelector('button[type="submit"]');b.disabled=true;b.textContent="Publishing…";
+ try{await window.publishOnLinePost({text,name:profile.displayName,username:profile.username,avatarImage:profile.avatarImage,initial:profile.avatar});box.value="";status.textContent="Post published to the shared feed!"}
+ catch(err){console.error(err);status.textContent="Couldn't publish. "+(err.code||err.message||"Check Firestore rules and connection.")}
+ finally{b.disabled=false;b.textContent="＋ Publish post"}
 });
-
-document.getElementById("feed").addEventListener("click",event=>{
-  const likeButton=event.target.closest("[data-like]");
-  const copyButton=event.target.closest("[data-copy]");
-  const commentsButton=event.target.closest("[data-toggle-comments]");
-  const profileButton=event.target.closest("[data-view-profile]");
-  if(profileButton)openProfileView();
-  if(commentsButton){
-    const area=document.getElementById("comments-"+commentsButton.dataset.toggleComments);
-    if(area)area.style.display=area.style.display==="none"?"block":"none";
-  }
-  if(likeButton){
-    const post=posts.find(p=>p.id===likeButton.dataset.like);
-    if(post){
-      post.liked=!post.liked;
-      post.likes=Math.max(0,(Number(post.likes)||0)+(post.liked?1:-1));
-      savePosts();renderFeed(document.getElementById("searchInput").value);
-    }
-  }
-  if(copyButton){
-    const post=getAllPosts().find(p=>p.id===copyButton.dataset.copy);
-    if(post){
-      if(navigator.clipboard&&navigator.clipboard.writeText){
-        navigator.clipboard.writeText(post.text).then(()=>{
-          copyButton.textContent="✓ Copied";
-        }).catch(()=>alert(post.text));
-      }else alert(post.text);
-    }
-  }
+document.getElementById("feed").addEventListener("click",async e=>{
+ const l=e.target.closest("[data-like]"),c=e.target.closest("[data-comments]"),cp=e.target.closest("[data-copy]");
+ if(l){const p=posts.find(p=>p.id===l.dataset.like);if(p){p.liked=!p.liked;p.likes=Math.max(0,(p.likes||0)+(p.liked?1:-1));savePosts();renderFeed(document.getElementById("searchInput").value)}}
+ if(c){const a=document.getElementById("comments-"+c.dataset.comments);if(a)a.style.display=a.style.display==="none"?"block":"none"}
+ if(cp){const p=getAllPosts().find(p=>p.id===cp.dataset.copy);if(p){try{await navigator.clipboard.writeText(p.text);cp.textContent="✓ Copied"}catch{alert(p.text)}}}
 });
-document.getElementById("feed").addEventListener("submit",event=>{
-  const form=event.target.closest("[data-comment-form]");
-  if(!form)return;
-  event.preventDefault();
-  const post=posts.find(p=>p.id===form.dataset.commentForm);
-  const input=form.elements.commentText;
-  const text=input.value.trim();
-  if(!post||!text)return;
-  if(!Array.isArray(post.comments))post.comments=[];
-  post.comments.push({name:profile.displayName,username:profile.username,avatarImage:profile.avatarImage||"",initial:profile.avatar||"P",text,time:"Just now · on this device"});
-  savePosts();renderFeed(document.getElementById("searchInput").value);
-  const area=document.getElementById("comments-"+post.id);
-  if(area)area.style.display="block";
+document.getElementById("feed").addEventListener("submit",e=>{
+ const f=e.target.closest("[data-comment]");if(!f)return;e.preventDefault();
+ const p=posts.find(p=>p.id===f.dataset.comment),text=f.elements.commentText.value.trim();if(!p||!text)return;
+ p.comments=p.comments||[];p.comments.push({name:profile.displayName,text,time:"Just now"});savePosts();renderFeed(document.getElementById("searchInput").value);
+ const a=document.getElementById("comments-"+p.id);if(a)a.style.display="block";
 });
-
-function openShortsDB(){
-  return new Promise((resolve,reject)=>{
-    const request=indexedDB.open(SHORTS_DB,1);
-    request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains("videos"))request.result.createObjectStore("videos",{keyPath:"id"});};
-    request.onsuccess=()=>resolve(request.result);
-    request.onerror=()=>reject(request.error);
-  });
-}
-async function getShorts(){
-  const db=await openShortsDB();
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("videos","readonly");
-    const req=tx.objectStore("videos").getAll();
-    req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.createdAt-a.createdAt));
-    req.onerror=()=>reject(req.error);
-    tx.oncomplete=()=>db.close();
-  });
-}
-async function saveShort(short){
-  const db=await openShortsDB();
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("videos","readwrite");
-    tx.objectStore("videos").put(short);
-    tx.oncomplete=()=>{db.close();resolve();};
-    tx.onerror=()=>{db.close();reject(tx.error);};
-  });
-}
-function renderShorts(items){
-  shortObjectUrls.forEach(url=>URL.revokeObjectURL(url));shortObjectUrls=[];
-  const feed=document.getElementById("shortFeed");
-  if(!items.length){
-    feed.innerHTML='<div class="card empty"><div style="font-size:40px">▶</div><h3>No shorts yet</h3><p class="muted">Be the first to upload a video!</p></div>';return;
-  }
-  feed.innerHTML=items.map(v=>`<article class="card post"><h3 style="margin:0">${escapeHTML(v.title)}</h3><video class="short-video" controls playsinline preload="metadata" data-short-video="${escapeHTML(v.id)}"></video><div class="short-owner"><button class="profile-link" data-view-profile="${escapeHTML(v.username||profile.username)}">${avatarMarkup(v.avatarImage||"",v.initial||"P",34)}</button><div><button class="profile-link" data-view-profile="${escapeHTML(v.username||profile.username)}"><strong>${escapeHTML(v.displayName||"Player")}</strong></button><div class="muted tiny">${escapeHTML(v.createdLabel||"Just now · on this device")}</div></div></div></article>`).join("");
-  feed.querySelectorAll("video[data-short-video]").forEach(el=>{
-    const item=items.find(v=>v.id===el.dataset.shortVideo);
-    if(item&&item.blob){const url=URL.createObjectURL(item.blob);shortObjectUrls.push(url);el.src=url;}
-  });
-}
-async function refreshShorts(){
-  try{renderShorts(await getShorts());}
-  catch{document.getElementById("shortFeed").innerHTML='<div class="card empty"><h3>Video storage unavailable</h3><p class="muted">Try opening OnLine in the latest version of Chrome.</p></div>';}
-}
-document.getElementById("shortForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  const title=document.getElementById("shortTitle").value.trim();
-  const file=document.getElementById("shortFile").files[0];
-  const msg=document.getElementById("shortUploadMessage");
-  if(!title||!file)return;
-  if(!file.type.startsWith("video/")||file.size>50*1024*1024){msg.textContent="Choose a video file smaller than 50 MB.";return;}
-  const button=event.currentTarget.querySelector('button[type="submit"]');
-  button.disabled=true;button.textContent="Uploading…";msg.textContent="Saving video on this device…";
-  try{
-    await saveShort({id:Date.now().toString()+Math.random().toString(16).slice(2),title,blob:file,displayName:profile.displayName,username:profile.username,avatarImage:profile.avatarImage||"",initial:profile.avatar||"P",createdAt:Date.now(),createdLabel:"Just now · on this device"});
-    event.currentTarget.reset();msg.textContent="Video uploaded! It is available in Shorts on this device.";await refreshShorts();
-  }catch{msg.textContent="Couldn't save this video. Try a smaller file or free up browser storage.";}
-  finally{button.disabled=false;button.textContent="Upload video";}
+document.getElementById("profileForm").addEventListener("submit",e=>{
+ e.preventDefault();const displayName=document.getElementById("displayNameInput").value.trim(),username=document.getElementById("usernameInput").value.trim().replace(/^@/,""),bio=document.getElementById("bioInput").value.trim(),avatar=document.getElementById("avatarInput").value.trim().slice(0,2)||"P";
+ if(!displayName||!/^[A-Za-z0-9_]+$/.test(username)){document.getElementById("profileSaveMessage").textContent="Use a display name and a username with letters, numbers, or underscores.";return}
+ profile={...profile,displayName,username,bio,avatar,avatarImage:pendingAvatarImage,bannerImage:pendingBannerImage};saveProfile();applyProfile();renderFeed(document.getElementById("searchInput").value);document.getElementById("profileSaveMessage").textContent="Profile saved on this device!";
 });
-document.getElementById("shortFeed").addEventListener("click",event=>{
-  if(event.target.closest("[data-view-profile]"))openProfileView();
+function readImage(file,max,callback){if(!file)return;if(!["image/png","image/jpeg","image/webp","image/gif"].includes(file.type)||file.size>max){alert("Choose a supported image within the size limit.");return}const r=new FileReader();r.onload=()=>callback(String(r.result));r.readAsDataURL(file)}
+document.getElementById("avatarFileInput").addEventListener("change",e=>readImage(e.target.files[0],2*1024*1024,v=>{pendingAvatarImage=v;setAvatar(document.getElementById("profileAvatarLarge"),v,profile.avatar)}));
+document.getElementById("bannerFileInput").addEventListener("change",e=>readImage(e.target.files[0],3*1024*1024,v=>{pendingBannerImage=v;const b=document.getElementById("profileBannerPreview");b.style.backgroundImage=`url("${v}")`;b.style.backgroundSize="cover";document.getElementById("bannerFallbackText").style.display="none"}));
+document.getElementById("removeAvatarImage").addEventListener("click",()=>{pendingAvatarImage="";document.getElementById("avatarFileInput").value="";setAvatar(document.getElementById("profileAvatarLarge"),"",profile.avatar)});
+document.getElementById("removeBannerImage").addEventListener("click",()=>{pendingBannerImage="";document.getElementById("bannerFileInput").value="";document.getElementById("profileBannerPreview").style.backgroundImage="linear-gradient(120deg,#3985ff,#984dff)";document.getElementById("bannerFallbackText").style.display="grid"});
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open("online_preview_shorts_db_v1",1);r.onupgradeneeded=()=>r.result.createObjectStore("videos",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+async function saveShort(v){const d=await openDB();return new Promise((res,rej)=>{const t=d.transaction("videos","readwrite");t.objectStore("videos").put(v);t.oncomplete=()=>{d.close();res()};t.onerror=()=>{d.close();rej(t.error)}})}
+async function refreshShorts(){try{const d=await openDB(),items=await new Promise((res,rej)=>{const t=d.transaction("videos","readonly"),r=t.objectStore("videos").getAll();r.onsuccess=()=>res(r.result.sort((a,b)=>b.createdAt-a.createdAt));r.onerror=()=>rej(r.error);t.oncomplete=()=>d.close()});shortObjectUrls.forEach(URL.revokeObjectURL);shortObjectUrls=[];const feed=document.getElementById("shortFeed");feed.innerHTML=items.length?items.map(v=>`<article class="card post"><h3>${esc(v.title)}</h3><video controls playsinline class="short-video" data-video="${v.id}"></video><p class="muted tiny">${esc(v.displayName)}</p></article>`).join(""):'<div class="card empty"><h3>No shorts yet</h3><p class="muted">Be the first to upload a video!</p></div>';feed.querySelectorAll("[data-video]").forEach(el=>{const v=items.find(x=>x.id===el.dataset.video);if(v){const u=URL.createObjectURL(v.blob);shortObjectUrls.push(u);el.src=u}})}catch(e){document.getElementById("shortFeed").textContent="Video storage unavailable. Try Chrome."}}
+document.getElementById("shortForm").addEventListener("submit",async e=>{
+ e.preventDefault();const title=document.getElementById("shortTitle").value.trim(),file=document.getElementById("shortFile").files[0],msg=document.getElementById("shortUploadMessage");
+ if(!title||!file)return;if(!file.type.startsWith("video/")||file.size>50*1024*1024){msg.textContent="Choose a video smaller than 50 MB.";return}
+ const b=e.currentTarget.querySelector("button");b.disabled=true;
+ try{await saveShort({id:Date.now().toString(),title,blob:file,displayName:profile.displayName,username:profile.username,createdAt:Date.now()});e.currentTarget.reset();msg.textContent="Video saved on this device.";await refreshShorts()}catch{msg.textContent="Couldn't save this video. Try a smaller file."}finally{b.disabled=false}
 });
 document.getElementById("searchInput").addEventListener("input",e=>renderFeed(e.target.value));
-function openPage(page){
-  document.querySelectorAll(".section").forEach(el=>el.classList.toggle("active",el.id==="page-"+page));
-  document.querySelectorAll("[data-page]").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-page]").forEach(button=>button.addEventListener("click",()=>openPage(button.dataset.page)));
+function openPage(page){document.querySelectorAll(".section").forEach(x=>x.classList.toggle("active",x.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===page));window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>openPage(b.dataset.page)));
 document.getElementById("year").textContent=new Date().getFullYear();
-applyProfile();
-renderFeed();
-refreshShorts();
+applyProfile();renderFeed();refreshShorts();
 </script>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-import {getAnalytics,isSupported} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-analytics.js";
-import {getAuth,GoogleAuthProvider,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import {getFirestore,collection,addDoc,onSnapshot,query,orderBy,serverTimestamp} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
 const firebaseConfig={
-  apiKey:"AIzaSyCghg83g-uOUOT6PMSrS88sDeO55_HAfnI",
-  authDomain:"online-36946.firebaseapp.com",
-  projectId:"online-36946",
-  storageBucket:"online-36946.firebasestorage.app",
-  messagingSenderId:"862122300869",
-  appId:"1:862122300869:web:38f55cf996e0feb0b5e7ac",
-  measurementId:"G-6SRQR8M84V"
+ apiKey:"AIzaSyCghg83g-UOUOT6PMSrS88sDeO55_HAfnI",
+ authDomain:"online-36946.firebaseapp.com",
+ projectId:"online-36946",
+ storageBucket:"online-36946.firebasestorage.app",
+ messagingSenderId:"862122300869",
+ appId:"1:862122300869:web:38f55cf996e0feb0b5e7ac",
+ measurementId:"G-6SRQR8M84V"
 };
 
-try{
-  const app=initializeApp(firebaseConfig);
-  const auth=getAuth(app);
-  const db=getFirestore(app);
-  const provider=new GoogleAuthProvider();
+const status=document.getElementById("authStatus");
+const button=document.getElementById("googleSignInButton");
+const notice=document.getElementById("authNotice");
+window.onlineAuthUser=null;
+window.sharedOnLinePosts=[];
+let auth,db,busy=false;
 
-  window.onlineAuthUser=null;
-  window.sharedOnLinePosts=[];
-
-  isSupported().then(supported=>{
-    if(supported)return getAnalytics(app);
-  }).catch(error=>console.log("Analytics unavailable:",error));
-
-  window.publishOnLinePost=async function(post){
-    const user=auth.currentUser;
-    if(!user)throw new Error("Sign-in required.");
-    await addDoc(collection(db,"posts"),{
-      text:post.text,
-      name:post.name,
-      username:post.username,
-      avatarImage:post.avatarImage||"",
-      initial:post.initial||"P",
-      authorId:user.uid,
-      createdAt:serverTimestamp()
-    });
-  };
-
-  document.getElementById("googleSignInButton").addEventListener("click",async()=>{
-    const status=document.getElementById("authStatus");
-    try{
-      if(auth.currentUser){
-        await signOut(auth);
-      }else{
-        await signInWithRedirect(auth,provider);
-      }
-    }catch(error){
-      console.error("Google sign-in error:",error);
-      status.textContent="Sign-in failed. Check that Google sign-in is enabled and this website is an authorized domain in Firebase.";
-    }
-  });
-
-  getRedirectResult(auth).catch(error=>{
-    console.error("Google redirect error:",error);
-    document.getElementById("authStatus").textContent="Sign-in didn't finish. Check Firebase Authentication and authorized domains.";
-  });
-
-  onAuthStateChanged(auth,user=>{
-    window.onlineAuthUser=user;
-    const button=document.getElementById("googleSignInButton");
-    const notice=document.getElementById("authNotice");
-    const status=document.getElementById("authStatus");
-    if(user){
-      button.textContent="Sign out";
-      notice.textContent="You're signed in. Posts you publish will appear in the shared feed.";
-      status.textContent="Signed in as "+(user.displayName||user.email||"Google user");
-    }else{
-      button.textContent="Sign in with Google";
-      notice.textContent="Sign in with Google to publish posts that everyone can see across devices.";
-      status.textContent="You're browsing the public feed.";
-    }
-  });
-
-  onSnapshot(
-    query(collection(db,"posts"),orderBy("createdAt","desc")),
-    snapshot=>{
-      window.sharedOnLinePosts=snapshot.docs.map(doc=>{
-        const data=doc.data();
-        return {
-          id:doc.id,
-          name:data.name||"Player",
-          username:data.username||"player",
-          avatarImage:data.avatarImage||"",
-          initial:data.initial||"P",
-          time:data.createdAt&&data.createdAt.toDate?data.createdAt.toDate().toLocaleString():"Just now",
-          text:data.text||"",
-          likes:0,
-          liked:false,
-          comments:[],
-          shared:true
-        };
-      });
-      if(typeof window.renderOnLineFeed==="function")window.renderOnLineFeed();
-    },
-    error=>{
-      console.error("Shared feed error:",error);
-      document.getElementById("authStatus").textContent="Couldn't load shared posts. Check your Firestore rules and internet connection.";
-    }
-  );
-
-  console.log("OnLine shared feed initialized.");
-}catch(error){
-  console.error("Firebase initialization error:",error);
-  document.getElementById("authStatus").textContent="Firebase couldn't start. Check the Firebase configuration.";
+function showError(prefix,error){
+ console.error(prefix,error);
+ status.textContent=prefix+(error?.code?" Error: "+error.code:"");
 }
+
+try{
+ const app=initializeApp(firebaseConfig);
+ auth=getAuth(app);
+ db=getFirestore(app);
+ const provider=new GoogleAuthProvider();
+ provider.setCustomParameters({prompt:"select_account"});
+
+ window.publishOnLinePost=async post=>{
+  const user=auth.currentUser;
+  if(!user)throw new Error("Please sign in first.");
+  const text=String(post.text||"").trim();
+  if(!text||text.length>500)throw new Error("Posts must be 1–500 characters.");
+  await addDoc(collection(db,"posts"),{
+   text,
+   name:String(post.name||"Player").slice(0,24),
+   username:String(post.username||"player").slice(0,20),
+   avatarImage:String(post.avatarImage||""),
+   initial:String(post.initial||"P").slice(0,2),
+   authorId:user.uid,
+   createdAt:serverTimestamp()
+  });
+ };
+
+ button.addEventListener("click",async()=>{
+  if(busy)return;
+  busy=true;button.disabled=true;
+  try{
+   if(auth.currentUser){status.textContent="Signing out…";await signOut(auth)}
+   else{status.textContent="Opening Google sign-in…";await signInWithPopup(auth,provider)}
+  }catch(error){
+   if(error.code==="auth/unauthorized-domain")showError("Website domain is not authorized in Firebase.",error);
+   else if(error.code==="auth/popup-blocked")showError("Google popup blocked. Allow popups and try again.",error);
+   else if(error.code==="auth/popup-closed-by-user")showError("Sign-in window closed before finishing.",error);
+   else showError("Google sign-in failed.",error);
+  }finally{busy=false;button.disabled=false}
+ });
+
+ onAuthStateChanged(auth,user=>{
+  window.onlineAuthUser=user;
+  if(user){
+   button.textContent="Sign out";
+   notice.textContent="You're signed in. Your published posts can appear across devices.";
+   status.textContent="Signed in as "+(user.displayName||user.email||"Google user");
+  }else{
+   button.textContent="Sign in with Google";
+   notice.textContent="Sign in with Google to publish posts that everyone can see across devices.";
+   status.textContent="You're browsing the public feed. Sign in to publish.";
+  }
+ },error=>showError("Couldn't check sign-in status.",error));
+
+ onSnapshot(query(collection(db,"posts"),orderBy("createdAt","desc")),snapshot=>{
+  window.sharedOnLinePosts=snapshot.docs.map(doc=>{
+   const d=doc.data();
+   return {id:doc.id,name:d.name||"Player",username:d.username||"player",avatarImage:d.avatarImage||"",initial:d.initial||"P",time:d.createdAt?.toDate?d.createdAt.toDate().toLocaleString():"Just now",text:d.text||"",likes:0,liked:false,comments:[],shared:true};
+  });
+  if(window.renderOnLineFeed)window.renderOnLineFeed();
+ },error=>showError("Couldn't load shared posts. Check Firestore rules and connection.",error));
+
+ console.log("OnLine Firebase initialized.");
+}catch(error){showError("Firebase couldn't start. Check the Firebase configuration.",error)}
 </script>
 </body>
 </html>
