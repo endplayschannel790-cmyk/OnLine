@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090b16">
+  <title>OnLine — Connect with everyone</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090b16;--panel:#12172a;--panel2:#181f38;--text:#f3f5ff;--muted:#9aa6c6;--blue:#3985ff;--purple:#984dff;--line:#29314d;--green:#4ce0a0}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at top left,#172044 0,transparent 42%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    button,input,textarea{font:inherit}
+    button{cursor:pointer}
+    .topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:13px max(16px,calc((100vw - 1200px)/2));background:#090b16eF;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:22px;letter-spacing:-.7px;white-space:nowrap}
+    .logo{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 5px 22px #6c59ff55;font-weight:900}
+    .search{flex:1;max-width:420px;margin:auto}
+    input,textarea{width:100%;background:#0d1222;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
+    input:focus,textarea:focus{border-color:var(--blue)}
+    .profile-chip{display:flex;align-items:center;gap:8px;white-space:nowrap;font-weight:650}
+    .avatar{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3985ff,#984dff);font-weight:800}
+    .layout{display:grid;grid-template-columns:210px minmax(0,620px) 245px;gap:22px;max-width:1200px;margin:24px auto;padding:0 16px}
+    aside{align-self:start;position:sticky;top:82px}
+    .nav{display:grid;gap:7px}
+    .nav button{display:flex;align-items:center;gap:12px;text-align:left;color:var(--muted);border:1px solid transparent;background:transparent;padding:12px 14px;border-radius:13px}
+    .nav button.active,.nav button:hover{background:var(--panel2);border-color:#343e66;color:var(--text)}
+    .nav .symbol{width:23px;text-align:center;font-size:18px}
+    .side-card,.card{background:linear-gradient(145deg,#141a2e,#101526);border:1px solid var(--line);border-radius:18px}
+    .side-card{padding:16px;margin-top:20px}
+    .side-card h3{margin:0 0 8px;font-size:15px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .feed-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 14px}
+    h1{font-size:25px;letter-spacing:-.6px;margin:0}
+    .pill{font-size:12px;color:#c4b4ff;background:#30224e;border:1px solid #58418b;border-radius:99px;padding:5px 9px}
+    .composer{padding:16px;margin-bottom:16px}
+    .compose-row{display:flex;align-items:flex-start;gap:11px}
+    .compose-row textarea{min-height:86px;resize:vertical}
+    .compose-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+    .primary{border:0;border-radius:12px;padding:10px 16px;color:white;font-weight:750;background:linear-gradient(110deg,var(--blue),var(--purple));box-shadow:0 5px 18px #6c59ff30}
+    .primary:hover{filter:brightness(1.1)}
+    .post{padding:17px;margin-bottom:14px}
+    .post-top{display:flex;align-items:center;gap:10px}
+    .post-name{font-weight:750}.profile-link{display:inline-flex;align-items:center;gap:8px;padding:0;border:0;background:transparent;color:inherit;text-align:left}.profile-link:hover .post-name,.profile-link:hover strong{text-decoration:underline;color:#b9cfff}.avatar.profile-link{display:grid;place-items:center}.profile-view-note{margin:12px 0 0}
+    .post-time{font-size:12px;color:var(--muted)}
+    .post-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:15px 0}
+    .post-actions{display:flex;gap:9px;border-top:1px solid var(--line);padding-top:12px}
+    .action{background:transparent;border:1px solid transparent;color:var(--muted);padding:7px 10px;border-radius:10px}
+    .action:hover,.action.liked{color:#ff86bd;background:#2b1830;border-color:#59304d}
+    .online-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 9px #4ce0a066;margin-right:7px}
+    .person{display:flex;align-items:center;gap:10px;margin-top:14px}
+    .person .avatar{width:34px;height:34px;font-size:12px}
+    .person-info{min-width:0;flex:1}
+    .person-name{font-size:13px;font-weight:700}
+    .short-video{width:100%;max-height:560px;background:#03050a;border-radius:14px;display:block;margin-top:12px}
+    .short-owner{display:flex;align-items:center;gap:9px;margin-top:12px}
+    .short-grid{display:grid;gap:14px}
+    .upload-box{padding:16px;margin-bottom:16px}
+    .section{display:none}
+    .section.active{display:block}
+    .empty{padding:28px;text-align:center}
+    .notice{padding:12px 14px;margin-bottom:15px;border-radius:12px;border:1px solid #39466e;background:#121b35;color:#c4d4ff;font-size:13px}
+    .mobile-nav{display:none}
+    footer{color:var(--muted);font-size:12px;text-align:center;padding:28px 12px}
+    @media(max-width:1000px){.layout{grid-template-columns:180px minmax(0,1fr)}.rightbar{display:none}}
+    @media(max-width:650px){.topbar{gap:10px;padding:10px 12px}.brand{font-size:19px}.logo{width:34px;height:34px}.search{max-width:none}.profile-chip span{display:none}.layout{display:block;margin:17px auto;padding:0 12px}.leftbar{display:none}.mobile-nav{position:sticky;bottom:0;z-index:6;display:flex;justify-content:space-around;gap:3px;padding:8px 5px calc(8px + env(safe-area-inset-bottom));background:#0b0e1cf5;border-top:1px solid var(--line);backdrop-filter:blur(12px)}.mobile-nav button{flex:1;display:grid;justify-items:center;gap:2px;background:transparent;border:0;border-radius:10px;color:var(--muted);padding:6px 1px;font-size:10px}.mobile-nav button.active{color:#fff;background:#222a49}.mobile-nav .symbol{font-size:19px}h1{font-size:23px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">O</div><span>OnLine</span></div>
+    <div class="search"><input id="searchInput" type="search" placeholder="Search posts..." aria-label="Search posts"></div>
+    <div class="profile-chip"><div class="avatar">P</div><span>Player</span></div>
+    <button class="primary" id="googleSignInButton" type="button" style="white-space:nowrap;padding:9px 12px">Sign in with Google</button>
+  </header>
+
+  <div class="layout">
+    <aside class="leftbar">
+      <nav class="nav" aria-label="Main navigation">
+        <button class="active" data-page="home"><span class="symbol">⌂</span> Home</button>
+        <button data-page="discover"><span class="symbol">⌕</span> Discover</button>
+        <button data-page="shorts"><span class="symbol">▶</span> Shorts</button>
+        <button data-page="messages"><span class="symbol">✉</span> Messages</button>
+        <button data-page="friends"><span class="symbol">♧</span> Friends</button>
+        <button data-page="profile"><span class="symbol">◉</span> My profile</button>
+      </nav>
+      <div class="side-card"><h3>Welcome to OnLine</h3><p class="muted tiny">Your space to share ideas, meet people, and stay connected.</p><span class="pill">Preview version</span></div>
+    </aside>
+
+    <main>
+      <section id="page-home" class="section active">
+        <div class="feed-head"><h1>Home feed</h1><span class="pill">✦ Your community</span></div>
+        <div class="notice" id="cloudStatus" role="status" aria-live="polite">Connecting to OnLine… Sign in with Google to publish posts that everyone can see.</div>
+        <form class="card composer" id="postForm">
+          <div class="compose-row"><div class="avatar" id="composerAvatar">P</div><div style="flex:1"><textarea id="postText" maxlength="500" placeholder="What's happening?" required aria-label="Write a post"></textarea></div></div>
+          <div class="compose-bottom"><span class="muted tiny">Share something positive ✨</span><button class="primary" type="submit">＋ Publish post</button></div>
+        </form>
+        <div id="feed"></div>
+      </section>
+
+      <section id="page-discover" class="section">
+        <div class="feed-head"><h1>Discover</h1><span class="pill">Explore</span></div>
+        <div class="card post"><h3>Find your community ✨</h3><p class="muted">Discover is ready for trending posts, topics, and people once we add the online database.</p></div>
+        <div class="card post"><h3>Gaming</h3><p class="muted">A place for game clips, tips, and finding teammates.</p></div>
+        <div class="card post"><h3>Creative corner</h3><p class="muted">Share art, projects, and things you're building.</p></div>
+      </section>
+
+      <section id="page-shorts" class="section">
+        <div class="feed-head"><h1>Shorts</h1><span class="pill">▶ Video feed</span></div>
+        <div class="notice">Upload a short video and watch it here. In this preview, videos are saved only in this browser on this device; other people won't see them until OnLine is connected to shared video storage.</div>
+        <form class="card upload-box" id="shortForm">
+          <h3 style="margin-top:0">＋ Upload a short</h3>
+          <label for="shortTitle">Video title</label>
+          <input id="shortTitle" maxlength="80" placeholder="Give your video a title" required style="margin:6px 0 14px">
+          <label for="shortFile">Choose a video</label>
+          <input id="shortFile" type="file" accept="video/mp4,video/webm,video/quicktime,video/ogg" required style="padding:9px;margin:6px 0 10px">
+          <p class="muted tiny">MP4, WEBM, MOV or OGG · maximum 50 MB per video.</p>
+          <button class="primary" type="submit">Upload video</button>
+          <p id="shortUploadMessage" class="muted tiny" role="status" aria-live="polite"></p>
+        </form>
+        <div id="shortFeed" class="short-grid"><div class="card empty"><p class="muted">Loading videos…</p></div></div>
+      </section>
+
+      <section id="page-messages" class="section">
+        <div class="feed-head"><h1>Messages</h1><span class="pill">Coming next</span></div>
+        <div class="card empty"><div style="font-size:40px">💬</div><h3>Your chats will live here</h3><p class="muted">Real-time messaging needs account sign-in and a shared database. We'll connect those safely with Firebase.</p></div>
+      </section>
+
+      <section id="page-friends" class="section">
+        <div class="feed-head"><h1>Friends</h1><span class="pill">Community</span></div>
+        <div class="card empty"><div style="font-size:40px">♧</div><h3>Your people, all in one place</h3><p class="muted">Friend requests and live online indicators will be added when user accounts are connected.</p></div>
+      </section>
+
+      <section id="page-profile" class="section">
+        <div class="feed-head"><h1>My profile</h1></div>
+        <div class="card post">
+          <div id="profileBannerPreview" style="height:135px;border-radius:13px;background:linear-gradient(120deg,#3985ff,#984dff);margin:-1px -1px 16px;overflow:hidden;position:relative">
+            <span id="bannerFallbackText" style="position:absolute;inset:0;display:grid;place-items:center;font-size:22px;font-weight:800;color:#ffffff99">YOUR BANNER</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px"><div class="avatar" id="profileAvatarLarge" style="width:68px;height:68px;font-size:23px">P</div><div><h2 id="profileDisplayName" style="margin:0">Player</h2><span class="muted tiny" id="profileHandle">@player</span><p class="muted" id="profileBioText" style="margin:5px 0 0">Welcome to my OnLine profile!</p></div></div><p class="muted tiny profile-view-note" id="profileViewNotice">This is your profile.</p>
+          <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+          <p><strong id="postCount">0</strong> posts on this device</p>
+          <p class="muted tiny">Profile details are saved in this browser on this device for now.</p>
+        </div>
+        <form class="card post" id="profileForm">
+          <h3 style="margin-top:0">Customize your profile</h3>
+          <p class="muted tiny">Choose how people will see you on OnLine.</p>
+          <label for="displayNameInput">Display name</label>
+          <input id="displayNameInput" maxlength="24" placeholder="Your display name" required style="margin:6px 0 14px">
+          <label for="usernameInput">Username</label>
+          <input id="usernameInput" maxlength="20" pattern="[A-Za-z0-9_]+" placeholder="your_username" required style="margin:6px 0 14px">
+          <label for="bioInput">Bio</label>
+          <textarea id="bioInput" maxlength="120" rows="3" placeholder="Tell people a little about yourself..." style="margin:6px 0 14px"></textarea>
+          <label for="avatarInput">Avatar letter or symbol (used if no picture is selected)</label>
+          <input id="avatarInput" maxlength="2" placeholder="P" style="margin:6px 0 14px">
+          <label for="avatarFileInput">Upload an avatar picture</label>
+          <div style="display:flex;align-items:center;gap:12px;margin:8px 0 14px;flex-wrap:wrap">
+            <div id="avatarUploadPreview" class="avatar" style="width:76px;height:76px;font-size:24px;overflow:hidden">P</div>
+            <div style="flex:1;min-width:160px">
+              <input id="avatarFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px">
+              <p class="muted tiny" style="margin:6px 0 0">PNG, JPG, WEBP or GIF · up to 2 MB. Saved only in this browser for now.</p>
+              <button type="button" id="removeAvatarImage" class="action" style="margin-top:5px">Remove picture</button>
+            </div>
+          </div>
+          <label for="bannerFileInput">Upload a profile banner</label>
+          <div style="margin:8px 0 14px">
+            <input id="bannerFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="padding:9px">
+            <p class="muted tiny" style="margin:6px 0 0">Wide image recommended · PNG, JPG, WEBP or GIF · up to 3 MB.</p>
+            <button type="button" id="removeBannerImage" class="action" style="margin-top:5px">Remove banner</button>
+          </div>
+          <button class="primary" type="submit">Save profile</button>
+          <p id="profileSaveMessage" class="muted tiny" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <aside class="rightbar">
+      <div class="side-card"><h3><span class="online-dot"></span>Community</h3><p class="muted tiny">The online community list will appear here when real accounts are enabled.</p><div class="person"><div class="avatar">O</div><div class="person-info"><div class="person-name">OnLine Community</div><div class="muted tiny">Getting started</div></div></div></div>
+      <div class="side-card"><h3>Quick note</h3><p class="muted tiny">Be kind, protect your personal information, and only share what you're comfortable making public.</p></div>
+    </aside>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="active" data-page="home"><span class="symbol">⌂</span>Home</button>
+    <button data-page="discover"><span class="symbol">⌕</span>Discover</button>
+    <button data-page="shorts"><span class="symbol">▶</span>Shorts</button>
+    <button data-page="messages"><span class="symbol">✉</span>Messages</button>
+    <button data-page="friends"><span class="symbol">♧</span>Friends</button>
+    <button data-page="profile"><span class="symbol">◉</span>Profile</button>
+  </nav>
+  <footer>OnLine © <span id="year"></span> · A new place to connect</footer>
+
+  <script>
+    const STORAGE_KEY = "online_preview_posts_v1";
+    const PROFILE_KEY = "online_preview_profile_v1";
+    const SHORTS_DB = "online_preview_shorts_db_v1";
+    let shortObjectUrls = [];
+    const defaultProfile = {displayName:"Player", username:"player", bio:"Welcome to my OnLine profile!", avatar:"P", avatarImage:"", bannerImage:""};
+    let profile = loadProfile();
+    function loadProfile(){
+      try {
+        const saved = localStorage.getItem(PROFILE_KEY);
+        return saved ? {...defaultProfile, ...JSON.parse(saved)} : {...defaultProfile};
+      } catch { return {...defaultProfile}; }
+    }
+    function saveProfile(){
+      try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch {}
+    }
+    const starterPosts = [
+      {id:"welcome",name:"OnLine Team",initial:"O",time:"Welcome post",text:"Welcome to OnLine! 🎉 This is the beginning of our community. Share your first post above.",likes:0,liked:false}
+    ];
+    let posts = loadPosts();
+    function loadPosts(){
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const loaded = saved ? JSON.parse(saved) : starterPosts.slice();
+        return loaded.map(post => ({...post, comments:Array.isArray(post.comments) ? post.comments : []}));
+      } catch { return starterPosts.map(post => ({...post, comments:[]})); }
+    }
+    function savePosts(){
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+      catch { /* The feed still works until this page is closed if storage is unavailable. */ }
+    }
+    function escapeHTML(value){
+      return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    }
+    function setAvatarContent(el, imageData, fallback){
+      el.replaceChildren();
+      if(imageData){
+        const img = document.createElement("img");
+        img.src = imageData;
+        img.alt = "Avatar picture";
+        img.style.cssText = "width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block";
+        el.appendChild(img);
+      } else {
+        el.textContent = fallback || "P";
+      }
+    }
+    function avatarMarkup(imageData, fallback, size=38){
+      const style = `width:${size}px;height:${size}px;min-width:${size}px;border-radius:50%;object-fit:cover;display:block`;
+      if(imageData) return `<img src="${escapeHTML(imageData)}" alt="Profile picture" style="${style}">`;
+      return `<span class="avatar" style="width:${size}px;height:${size}px;min-width:${size}px;font-size:${size<=30?12:15}px">${escapeHTML(fallback || "P")}</span>`;
+    }
+    function openProfileView(){
+      openPage("profile");
+      document.getElementById("profileForm").style.display = "block";
+      document.getElementById("profileViewNotice").textContent = "You're viewing this profile. Profile details are currently saved on this device.";
+    }
+    function setBannerContent(){
+      const banner = document.getElementById("profileBannerPreview");
+      const fallback = document.getElementById("bannerFallbackText");
+      if(profile.bannerImage){
+        banner.style.backgroundImage = `url("${profile.bannerImage}")`;
+        banner.style.backgroundSize = "cover";
+        banner.style.backgroundPosition = "center";
+        fallback.style.display = "none";
+      } else {
+        banner.style.backgroundImage = "linear-gradient(120deg,#3985ff,#984dff)";
+        fallback.style.display = "grid";
+      }
+    }
+    function applyProfile(){
+      document.querySelectorAll(".profile-chip .avatar").forEach(el=>setAvatarContent(el, profile.avatarImage, profile.avatar || "P"));
+      const chipName = document.querySelector(".profile-chip span");
+      if(chipName) chipName.textContent = profile.displayName;
+      setAvatarContent(document.getElementById("profileAvatarLarge"), profile.avatarImage, profile.avatar || "P");
+      setAvatarContent(document.getElementById("composerAvatar"), profile.avatarImage, profile.avatar || "P");
+      setAvatarContent(document.getElementById("avatarUploadPreview"), profile.avatarImage, profile.avatar || "P");
+      setBannerContent();
+      document.getElementById("profileDisplayName").textContent = profile.displayName;
+      document.getElementById("profileHandle").textContent = "@"+profile.username;
+      document.getElementById("profileBioText").textContent = profile.bio || "No bio yet.";
+      document.getElementById("displayNameInput").value = profile.displayName;
+      document.getElementById("usernameInput").value = profile.username;
+      document.getElementById("bioInput").value = profile.bio;
+      document.getElementById("avatarInput").value = profile.avatar;
+    }
+    let pendingAvatarImage = profile.avatarImage || "";
+    let pendingBannerImage = profile.bannerImage || "";
+    const bannerFileInput = document.getElementById("bannerFileInput");
+    bannerFileInput.addEventListener("change", () => {
+      const file = bannerFileInput.files && bannerFileInput.files[0];
+      if(!file) return;
+      if(!["image/png","image/jpeg","image/webp","image/gif"].includes(file.type)){
+        alert("Please choose a PNG, JPG, WEBP, or GIF image.");
+        bannerFileInput.value = "";
+        return;
+      }
+      if(file.size > 3 * 1024 * 1024){
+        alert("Please choose a banner image smaller than 3 MB.");
+        bannerFileInput.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        pendingBannerImage = String(reader.result || "");
+        const banner = document.getElementById("profileBannerPreview");
+        banner.style.backgroundImage = `url("${pendingBannerImage}")`;
+        banner.style.backgroundSize = "cover";
+        banner.style.backgroundPosition = "center";
+        document.getElementById("bannerFallbackText").style.display = "none";
+      };
+      reader.onerror = () => alert("Sorry, that banner couldn't be read. Please try another image.");
+      reader.readAsDataURL(file);
+    });
+    document.getElementById("removeBannerImage").addEventListener("click", () => {
+      pendingBannerImage = "";
+      bannerFileInput.value = "";
+      const banner = document.getElementById("profileBannerPreview");
+      banner.style.backgroundImage = "linear-gradient(120deg,#3985ff,#984dff)";
+      document.getElementById("bannerFallbackText").style.display = "grid";
+    });
+    const avatarFileInput = document.getElementById("avatarFileInput");
+    avatarFileInput.addEventListener("change", () => {
+      const file = avatarFileInput.files && avatarFileInput.files[0];
+      if(!file) return;
+      if(!["image/png","image/jpeg","image/webp","image/gif"].includes(file.type)){
+        alert("Please choose a PNG, JPG, WEBP, or GIF image.");
+        avatarFileInput.value = "";
+        return;
+      }
+      if(file.size > 2 * 1024 * 1024){
+        alert("Please choose an image smaller than 2 MB.");
+        avatarFileInput.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        pendingAvatarImage = String(reader.result || "");
+        setAvatarContent(document.getElementById("avatarUploadPreview"), pendingAvatarImage, document.getElementById("avatarInput").value || "P");
+      };
+      reader.onerror = () => alert("Sorry, that picture couldn't be read. Please try another image.");
+      reader.readAsDataURL(file);
+    });
+    document.getElementById("removeAvatarImage").addEventListener("click", () => {
+      pendingAvatarImage = "";
+      avatarFileInput.value = "";
+      setAvatarContent(document.getElementById("avatarUploadPreview"), "", document.getElementById("avatarInput").value || "P");
+    });
+    document.getElementById("profileForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const displayName = document.getElementById("displayNameInput").value.trim();
+      const username = document.getElementById("usernameInput").value.trim().replace(/^@/,"");
+      const bio = document.getElementById("bioInput").value.trim();
+      const avatar = document.getElementById("avatarInput").value.trim().slice(0,2) || displayName.slice(0,1).toUpperCase() || "P";
+      if(!displayName || !/^[A-Za-z0-9_]+$/.test(username)){
+        document.getElementById("profileSaveMessage").textContent = "Enter a display name and a username using only letters, numbers, or underscores.";
+        return;
+      }
+      if(username.toLowerCase() !== profile.username.toLowerCase() && username.toLowerCase() === "player"){
+        document.getElementById("profileSaveMessage").textContent = "That username is already taken. Please choose another.";
+        return;
+      }
+      profile = {displayName, username, bio, avatar, avatarImage:pendingAvatarImage, bannerImage:pendingBannerImage};
+      saveProfile();
+      applyProfile();
+      document.getElementById("profileSaveMessage").textContent = "Profile saved on this device!";
+      renderFeed(document.getElementById("searchInput").value);
+    });
+    function renderFeed(filter=""){
+      const feed = document.getElementById("feed");
+      const matching = posts.filter(p => (p.text + " " + p.name).toLowerCase().includes(filter.toLowerCase()));
+      if(!matching.length){
+        feed.innerHTML = '<div class="card empty"><h3>No posts found</h3><p class="muted">Try another search or publish a post.</p></div>';
+      } else {
+        feed.innerHTML = matching.map(p => `
+          <article class="card post">
+            <div class="post-top"><button class="profile-link" data-view-profile="${escapeHTML(p.username || profile.username)}" aria-label="View ${escapeHTML(p.name)} profile">${avatarMarkup(p.avatarImage || (p.name===profile.displayName ? profile.avatarImage : ""), p.initial || "P", 38)}</button><div><button class="profile-link" data-view-profile="${escapeHTML(p.username || profile.username)}"><span class="post-name">${escapeHTML(p.name)}</span></button><div class="post-time">${escapeHTML(p.time)}</div></div></div>
+            <div class="post-text">${escapeHTML(p.text)}</div>
+            <div class="post-actions"><button class="action ${p.liked ? "liked" : ""}" data-like="${escapeHTML(p.id)}">${p.liked ? "♥" : "♡"} ${p.likes} Like${p.likes===1?"":"s"}</button><button class="action" data-copy="${escapeHTML(p.id)}">↗ Copy post text</button><button class="action" data-toggle-comments="${escapeHTML(p.id)}">💬 ${(p.comments || []).length} Comment${(p.comments || []).length===1?"":"s"}</button></div>
+            <div class="comments-area" id="comments-${escapeHTML(p.id)}">
+              ${(p.comments || []).map(c => `<div style="display:flex;gap:8px;margin:12px 0"><button class="profile-link" data-view-profile="${escapeHTML(c.username || profile.username)}" aria-label="View ${escapeHTML(c.name)} profile">${avatarMarkup(c.avatarImage || (c.name===profile.displayName ? profile.avatarImage : ""), c.initial || "P", 30)}</button><div style="flex:1;background:#0d1222;border:1px solid var(--line);border-radius:12px;padding:9px 11px"><button class="profile-link" data-view-profile="${escapeHTML(c.username || profile.username)}"><strong style="font-size:13px">${escapeHTML(c.name)}</strong></button><div style="white-space:pre-wrap;overflow-wrap:anywhere;margin-top:3px">${escapeHTML(c.text)}</div><div class="muted tiny" style="margin-top:4px">${escapeHTML(c.time || "Just now")}</div></div></div>`).join("")}
+              <form class="comment-form" data-comment-form="${escapeHTML(p.id)}" style="display:flex;gap:8px;margin-top:12px">
+                <input name="commentText" maxlength="250" placeholder="Write a comment..." aria-label="Write a comment" required>
+                <button class="primary" type="submit" style="padding:9px 12px">Send</button>
+              </form>
+            </div>
+          </article>`).join("");
+      }
+      document.getElementById("postCount").textContent = posts.filter(p=>p.name===profile.displayName).length;
+    }
+    window.onlineSetSharedPosts = function(sharedPosts){
+      posts = sharedPosts;
+      renderFeed(document.getElementById("searchInput").value);
+    };
+    document.getElementById("postForm").addEventListener("submit", event => {
+      event.preventDefault();
+      if(window.onlineCloudEnabled) return; // Firebase handler below publishes shared posts.
+      const box = document.getElementById("postText");
+      const text = box.value.trim();
+      if(!text) return;
+      posts.unshift({id:Date.now().toString(),name:profile.displayName,username:profile.username,avatarImage:profile.avatarImage || "",initial:profile.avatar || "P",time:"Just now · on this device",text,likes:0,liked:false,comments:[]});
+      savePosts(); box.value=""; renderFeed(document.getElementById("searchInput").value);
+    });
+    document.getElementById("feed").addEventListener("click", event => {
+      const likeButton = event.target.closest("[data-like]");
+      const copyButton = event.target.closest("[data-copy]");
+      const commentsButton = event.target.closest("[data-toggle-comments]");
+      const profileButton = event.target.closest("[data-view-profile]");
+      if(profileButton){
+        openProfileView();
+      }
+      if(commentsButton){
+        const area = document.getElementById("comments-"+commentsButton.dataset.toggleComments);
+        if(area) area.style.display = area.style.display === "none" ? "block" : "none";
+      }
+      if(likeButton){
+        const post = posts.find(p=>p.id===likeButton.dataset.like);
+        if(post){post.liked=!post.liked;post.likes=Math.max(0,post.likes+(post.liked?1:-1));savePosts();renderFeed(document.getElementById("searchInput").value);}
+      }
+      if(copyButton){
+        const post = posts.find(p=>p.id===copyButton.dataset.copy);
+        if(post && navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(post.text).then(()=>{copyButton.textContent="✓ Copied";}).catch(()=>alert(post.text));
+        } else if(post) { alert(post.text); }
+      }
+    });
+    document.getElementById("feed").addEventListener("submit", event => {
+      const form = event.target.closest("[data-comment-form]");
+      if(!form) return;
+      event.preventDefault();
+      const post = posts.find(p=>p.id===form.dataset.commentForm);
+      const input = form.elements.commentText;
+      const text = input.value.trim();
+      if(!post || !text) return;
+      if(!Array.isArray(post.comments)) post.comments = [];
+      post.comments.push({name:profile.displayName,username:profile.username,avatarImage:profile.avatarImage || "",initial:profile.avatar || "P",text,time:"Just now · on this device"});
+      savePosts();
+      renderFeed(document.getElementById("searchInput").value);
+      const area = document.getElementById("comments-"+post.id);
+      if(area) area.style.display = "block";
+    });
+    function openShortsDB(){
+      return new Promise((resolve,reject)=>{
+        const request=indexedDB.open(SHORTS_DB,1);
+        request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains("videos")) request.result.createObjectStore("videos",{keyPath:"id"});};
+        request.onsuccess=()=>resolve(request.result);
+        request.onerror=()=>reject(request.error);
+      });
+    }
+    async function getShorts(){
+      const db=await openShortsDB();
+      return new Promise((resolve,reject)=>{const tx=db.transaction("videos","readonly");const req=tx.objectStore("videos").getAll();req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.createdAt-a.createdAt));req.onerror=()=>reject(req.error);tx.oncomplete=()=>db.close();});
+    }
+    async function saveShort(short){
+      const db=await openShortsDB();
+      return new Promise((resolve,reject)=>{const tx=db.transaction("videos","readwrite");tx.objectStore("videos").put(short);tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(tx.error);};});
+    }
+    function renderShorts(items){
+      shortObjectUrls.forEach(url=>URL.revokeObjectURL(url)); shortObjectUrls=[];
+      const feed=document.getElementById("shortFeed");
+      if(!items.length){feed.innerHTML='<div class="card empty"><div style="font-size:40px">▶</div><h3>No shorts yet</h3><p class="muted">Be the first to upload a video!</p></div>';return;}
+      feed.innerHTML=items.map(v=>`<article class="card post"><h3 style="margin:0">${escapeHTML(v.title)}</h3><video class="short-video" controls playsinline preload="metadata" data-short-video="${escapeHTML(v.id)}"></video><div class="short-owner"><button class="profile-link" data-view-profile="${escapeHTML(v.username||profile.username)}">${avatarMarkup(v.avatarImage||"",v.initial||"P",34)}</button><div><button class="profile-link" data-view-profile="${escapeHTML(v.username||profile.username)}"><strong>${escapeHTML(v.displayName||"Player")}</strong></button><div class="muted tiny">${escapeHTML(v.createdLabel||"Just now · on this device")}</div></div></div></article>`).join("");
+      const videos=feed.querySelectorAll("video[data-short-video]");
+      videos.forEach(el=>{const item=items.find(v=>v.id===el.dataset.shortVideo);if(item&&item.blob){const url=URL.createObjectURL(item.blob);shortObjectUrls.push(url);el.src=url;}});
+    }
+    async function refreshShorts(){
+      try{renderShorts(await getShorts());}
+      catch{document.getElementById("shortFeed").innerHTML='<div class="card empty"><h3>Video storage unavailable</h3><p class="muted">Try opening OnLine in the latest version of Chrome.</p></div>';}
+    }
+    document.getElementById("shortForm").addEventListener("submit",async event=>{
+      event.preventDefault();
+      const title=document.getElementById("shortTitle").value.trim();
+      const file=document.getElementById("shortFile").files[0];
+      const msg=document.getElementById("shortUploadMessage");
+      if(!title||!file)return;
+      if(!file.type.startsWith("video/")||file.size>50*1024*1024){msg.textContent="Choose a video file smaller than 50 MB.";return;}
+      const button=event.currentTarget.querySelector('button[type="submit"]');button.disabled=true;button.textContent="Uploading…";msg.textContent="Saving video on this device…";
+      try{
+        await saveShort({id:Date.now().toString()+Math.random().toString(16).slice(2),title,blob:file,displayName:profile.displayName,username:profile.username,avatarImage:profile.avatarImage||"",initial:profile.avatar||"P",createdAt:Date.now(),createdLabel:"Just now · on this device"});
+        event.currentTarget.reset();msg.textContent="Video uploaded! It is available in Shorts on this device.";await refreshShorts();
+      }catch{msg.textContent="Couldn't save this video. Try a smaller file or free up browser storage.";}
+      finally{button.disabled=false;button.textContent="Upload video";}
+    });
+    document.getElementById("shortFeed").addEventListener("click",event=>{if(event.target.closest("[data-view-profile]"))openProfileView();});
+    document.getElementById("searchInput").addEventListener("input", e=>renderFeed(e.target.value));
+    function openPage(page){
+      document.querySelectorAll(".section").forEach(el=>el.classList.toggle("active",el.id==="page-"+page));
+      document.querySelectorAll("[data-page]").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    document.querySelectorAll("[data-page]").forEach(button=>button.addEventListener("click",()=>openPage(button.dataset.page)));
+    document.getElementById("year").textContent = new Date().getFullYear();
+    applyProfile();
+    renderFeed();
+    refreshShorts();
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCghg83g-UOUOT6PMSrS88sDeO55_HAfnI",
+      authDomain: "online-36946.firebaseapp.com",
+      projectId: "online-36946",
+      storageBucket: "online-36946.firebasestorage.app",
+      messagingSenderId: "862122300869",
+      appId: "1:862122300869:web:38f55cf996e0feb0b5e7ac",
+      measurementId: "G-6SRQR8M84V"
+    };
+
+    const status = document.getElementById("cloudStatus");
+    const signInButton = document.getElementById("googleSignInButton");
+    const postForm = document.getElementById("postForm");
+    const postText = document.getElementById("postText");
+    let currentUser = null;
+    let unsubscribePosts = null;
+    window.onlineCloudEnabled = true;
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+
+      signInButton.addEventListener("click", async () => {
+        signInButton.disabled = true;
+        try {
+          if (currentUser) {
+            await signOut(auth);
+          } else {
+            try {
+              await signInWithPopup(auth, provider);
+            } catch (popupError) {
+              // Popup blockers on mobile browsers often prevent Google sign-in.
+              if (["auth/popup-blocked", "auth/operation-not-supported-in-this-environment", "auth/cancelled-popup-request"].includes(popupError.code)) {
+                await signInWithRedirect(auth, provider);
+                return;
+              }
+              throw popupError;
+            }
+          }
+        } catch (error) {
+          console.error("Google sign-in error:", error);
+          status.textContent = "Sign-in failed: " + (error.code || error.message) + ". In Firebase Authentication, enable Google and add endplayschannel790-cmyk.github.io under Authorized domains.";
+        } finally {
+          signInButton.disabled = false;
+        }
+      });
+
+      getRedirectResult(auth).catch(error => {
+        console.error("Google redirect sign-in error:", error);
+        status.textContent = "Google sign-in failed: " + (error.code || error.message) + ". Check Firebase Google provider and Authorized domains.";
+      });
+
+      onAuthStateChanged(auth, user => {
+        currentUser = user;
+        signInButton.textContent = user ? "Sign out · " + (user.displayName || "Google user") : "Sign in with Google";
+        postText.disabled = false;
+        postForm.querySelector('button[type="submit"]').disabled = false;
+        postText.placeholder = "What's happening? Anyone can post.";
+        if (user) {
+          status.textContent = "Signed in as " + (user.displayName || user.email || "Google user") + ". Your posts are shared with everyone on OnLine.";
+        } else {
+          status.textContent = "You can publish without signing in. Guest posts are shared with everyone.";
+        }
+      });
+
+      const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      unsubscribePosts = onSnapshot(postsQuery, snapshot => {
+        const sharedPosts = snapshot.docs.map(docSnap => {
+          const d = docSnap.data();
+          const date = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null;
+          return {
+            id: docSnap.id,
+            authorId: d.authorId || "",
+            name: d.name || "Player",
+            username: d.username || "player",
+            avatarImage: typeof d.avatarImage === "string" ? d.avatarImage : "",
+            initial: d.initial || (d.name || "P").slice(0, 1).toUpperCase(),
+            time: date ? date.toLocaleString() : "Just now",
+            text: typeof d.text === "string" ? d.text : "",
+            likes: Number(d.likes) || 0,
+            liked: false,
+            comments: []
+          };
+        });
+        window.onlineSetSharedPosts(sharedPosts);
+        if (!currentUser) status.textContent = "Public feed connected. Anyone can publish a post.";
+      }, error => {
+        console.error("Post feed error:", error);
+        status.textContent = "Couldn't load shared posts: " + (error.code || error.message) + ". Check Firestore Database and its Rules.";
+      });
+
+      postForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const text = postText.value.trim();
+        if (!text) return;
+        const submitButton = postForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        status.textContent = "Publishing your post…";
+        try {
+          await addDoc(collection(db, "posts"), {
+            authorId: currentUser ? currentUser.uid : "guest",
+            name: currentUser ? (currentUser.displayName || currentUser.email?.split("@")[0] || "Player") : "Guest",
+            username: currentUser ? ((currentUser.displayName || "player").toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 20) || "player") : "guest",
+            initial: profile.avatar || (currentUser ? (currentUser.displayName || "P").slice(0, 1).toUpperCase() : "G"),
+            avatarImage: profile.avatarImage || "",
+            text,
+            likes: 0,
+            createdAt: serverTimestamp()
+          });
+          postText.value = "";
+          status.textContent = "Post published! Everyone can see it in the shared feed.";
+        } catch (error) {
+          console.error("Publish post error:", error);
+          status.textContent = "Couldn't publish: " + (error.code || error.message) + ". Check that Firestore Rules allow public post creation.";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    } catch (error) {
+      console.error("Firebase setup error:", error);
+      status.textContent = "Firebase couldn't start: " + (error.code || error.message) + ". Check your internet connection and Firebase settings.";
+      window.onlineCloudEnabled = false;
+    }
+  </script>
+</body>
+</html>
